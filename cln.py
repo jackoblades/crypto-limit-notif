@@ -6,7 +6,7 @@ import smtplib
 # Config. Expected format:
 
 # [SETTINGS]
-# sender = <sender email @ mail.com>
+# sender = <sender email>
 # password = <sender password>
 # receiver = <receiver email>
 # limit = <floating point value>
@@ -45,13 +45,14 @@ if trigger != 'yes':
         password = settings['password']
         subject  = f'Bitcoin Limit Break ${limit:.2f}'
         body     = f'Bitcoin has hit ${price:.2f}'
-        message  = f"""\
-From: {sender}
-To: {receiver}
-Subject: {subject}
+        message  = """\
+From: %s
+To: %s
+Subject: %s
 
-{body}
-"""
+%s
+""" % (sender, receiver, subject, body)
+
         # Send mail.
         smtp = smtplib.SMTP_SSL('smtp.mail.com', 465)
         smtp.ehlo()
